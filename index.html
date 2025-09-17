@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ditchburn's Color Palette Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Ditchburn's Color Palette Generator</h1>
+            <p class="subtitle">Create beautiful color combinations with advanced color theory</p>
+        </header>
+
+        <div class="control-panel">
+            <div class="control-group">
+                <label for="paletteType" class="form-label">Palette Type:</label>
+                <select id="paletteType" class="form-control type-selector">
+                    <option value="random">Random</option>
+                    <option value="qualitative" selected>Qualitative</option>
+                    <option value="divergent">Divergent</option>
+                    <option value="complementary">Complementary</option>
+                    <option value="analogous">Analogous</option>
+                    <option value="triadic">Triadic</option>
+                    <option value="sequential">Sequential</option>
+                    <option value="monochromatic">Monochromatic</option>
+                </select>
+                <small class="palette-description" id="paletteDescription">
+                    Distinct colors for categorical data visualization
+                </small>
+            </div>
+
+            <div class="control-group">
+                <label for="paletteSize" class="form-label">Colors:</label>
+                <select id="paletteSize" class="form-control size-selector">
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+
+            <div class="control-buttons">
+                <button id="generateBtn" class="btn btn--primary">
+                    Generate Palette
+                </button>
+                <button id="saveBtn" class="btn btn--secondary">
+                    Save Palette
+                </button>
+                <button id="exportBtn" class="btn btn--tertiary">
+                    Export
+                </button>
+            </div>
+        </div>
+
+        <div class="palette-container" id="paletteContainer">
+            <!-- Color swatches will be dynamically generated here -->
+        </div>
+
+        <div class="keyboard-hint">
+            <small>💡 Press <kbd>Spacebar</kbd> to generate new colors • <kbd>S</kbd> to save</small>
+        </div>
+
+        <section class="saved-palettes">
+            <h3>Saved Palettes</h3>
+            <div class="saved-palettes-grid" id="savedPalettesGrid">
+                <p class="no-palettes">No saved palettes yet. Create and save your first palette!</p>
+            </div>
+        </section>
+
+        <div class="export-modal" id="exportModal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Export Palette</h3>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="export-format">
+                        <label>Format:</label>
+                        <select id="exportFormat">
+                            <option value="css">CSS Variables</option>
+                            <option value="json">JSON</option>
+                            <option value="hex">Hex Array</option>
+                        </select>
+                    </div>
+                    <textarea id="exportOutput" readonly></textarea>
+                    <button id="copyExport" class="btn btn--primary">Copy to Clipboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
