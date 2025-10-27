@@ -1,103 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ditchburn's Color Palette Generator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Palette Generator</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header class="app-header">
-            <h1>Ditchburn's Color Palette Generator</h1>
-            <p class="subtitle">Create beautiful color combinations with advanced color theory</p>
-        </header>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>🎨 Ditchburn's Color Palette Generator</h1>
+      <p class="subtitle">Create beautiful color schemes with AI-powered generation and curated palettes</p>
+    </header>
 
-        <div class="control-panel">
-            <div class="control-group">
-                <label for="paletteType" class="form-label">Palette Type:</label>
-                <select id="paletteType" class="form-control type-selector">
-                    <option value="random">Random</option>
-                    <option value="qualitative" selected>Qualitative</option>
-                    <option value="divergent">Divergent</option>
-                    <option value="complementary">Complementary</option>
-                    <option value="analogous">Analogous</option>
-                    <option value="triadic">Triadic</option>
-                    <option value="sequential">Sequential</option>
-                    <option value="monochromatic">Monochromatic</option>
-                </select>
-                <small class="palette-description" id="paletteDescription">
-                    Distinct colors for categorical data visualization
-                </small>
-            </div>
-
-            <div class="control-group">
-                <label for="paletteSize" class="form-label">Colors:</label>
-                <select id="paletteSize" class="form-control size-selector">
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5" selected>5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="12">12</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                </select>
-            </div>
-
-            <div class="control-buttons">
-                <button id="generateBtn" class="btn btn--primary">
-                    Generate Palette
-                </button>
-                <button id="saveBtn" class="btn btn--secondary">
-                    Save Palette
-                </button>
-                <button id="exportBtn" class="btn btn--tertiary">
-                    Export
-                </button>
-            </div>
+    <!-- Control Panel -->
+    <section class="control-panel">
+      <div class="control-row">
+        <div class="control-group">
+          <label for="paletteSource" class="form-label">Palette Source</label>
+          <select id="paletteSource" class="form-control">
+            <option value="generator">Generator</option>
+            <option value="seaborn">Seaborn</option>
+            <option value="ggsci">ggsci</option>
+          </select>
         </div>
 
-        <div class="palette-container" id="paletteContainer">
-            <!-- Color swatches will be dynamically generated here -->
+        <div class="control-group" id="theoryTypeGroup">
+          <label for="theoryType" class="form-label">Theory Type</label>
+          <select id="theoryType" class="form-control">
+            <option value="random">Random</option>
+            <option value="qualitative" selected>Qualitative</option>
+            <option value="divergent">Divergent</option>
+            <option value="complementary">Complementary</option>
+            <option value="analogous">Analogous</option>
+            <option value="triadic">Triadic</option>
+            <option value="sequential">Sequential</option>
+            <option value="monochromatic">Monochromatic</option>
+          </select>
         </div>
 
-        <div class="keyboard-hint">
-            <small>💡 Press <kbd>Spacebar</kbd> to generate new colors • <kbd>S</kbd> to save</small>
+        <div class="control-group hidden" id="presetPaletteGroup">
+          <label for="presetPalette" class="form-label">Preset Palette</label>
+          <select id="presetPalette" class="form-control">
+            <!-- Options populated by JS -->
+          </select>
         </div>
 
-        <section class="saved-palettes">
-            <h3>Saved Palettes</h3>
-            <div class="saved-palettes-grid" id="savedPalettesGrid">
-                <p class="no-palettes">No saved palettes yet. Create and save your first palette!</p>
-            </div>
-        </section>
-
-        <div class="export-modal" id="exportModal" style="display: none;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Export Palette</h3>
-                    <button class="close-btn" id="closeModal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="export-format">
-                        <label>Format:</label>
-                        <select id="exportFormat">
-                            <option value="css">CSS Variables</option>
-                            <option value="json">JSON</option>
-                            <option value="hex">Hex Array</option>
-                        </select>
-                    </div>
-                    <textarea id="exportOutput" readonly></textarea>
-                    <button id="copyExport" class="btn btn--primary">Copy to Clipboard</button>
-                </div>
-            </div>
+        <div class="control-group" id="colorStyleGroup">
+          <label for="colorStyle" class="form-label">Color Style</label>
+          <select id="colorStyle" class="form-control">
+            <option value="default" selected>Default - Balanced</option>
+            <option value="pastel">Pastel - Soft</option>
+            <option value="vivid">Vivid - Bold</option>
+            <option value="muted">Muted - Subdued</option>
+            <option value="neutral">Neutral - Grayscale</option>
+            <option value="warm">Warm - Red/Orange</option>
+            <option value="cool">Cool - Blue/Purple</option>
+            <option value="light">Light - Airy</option>
+            <option value="dark">Dark - Moody</option>
+            <option value="colorblind">Colorblind Safe</option>
+            <option value="deep">Deep - Rich</option>
+            <option value="pale">Pale - Delicate</option>
+            <option value="vintage">Vintage - Retro</option>
+            <option value="earthy">Earthy - Natural</option>
+          </select>
         </div>
+      </div>
+
+      <div class="control-row">
+        <div class="control-group">
+          <label for="baseColor" class="form-label">Base Color</label>
+          <div class="color-input-wrapper">
+            <input type="text" id="baseColor" class="form-control" placeholder="e.g., red, #AB92BF">
+            <input type="color" id="colorPicker" class="color-picker" value="#3498db">
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label for="numColors" class="form-label">Number of Colors</label>
+          <select id="numColors" class="form-control">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+
+        <div class="control-group button-group">
+          <button id="generateBtn" class="btn btn--primary">Generate</button>
+          <button id="saveBtn" class="btn btn--secondary">Save Palette</button>
+          <button id="exportBtn" class="btn btn--outline">Export Palette</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Palette Display -->
+    <section class="palette-section">
+      <h2>Current Palette</h2>
+      <div id="paletteDisplay" class="palette-grid">
+        <!-- Color swatches populated by JS -->
+      </div>
+    </section>
+
+    <!-- Color Collection -->
+    <section class="collection-section">
+      <div class="collection-header">
+        <h2>Color Collection <span id="collectionCount" class="collection-count">(0)</span></h2>
+        <div class="collection-controls">
+          <button id="clearCollectionBtn" class="btn btn--sm btn--secondary">Clear All</button>
+          <button id="exportCollectionBtn" class="btn btn--sm btn--primary">Export Collection</button>
+        </div>
+      </div>
+      <div id="collectionDisplay" class="collection-grid">
+        <p class="empty-message">No colors collected yet. Click the + button on any color to add it to your collection.</p>
+      </div>
+    </section>
+
+    <!-- Ninja Animation -->
+    <section class="animation-section">
+      <div class="animation-container" id="animationContainer">
+        <div class="ninja" id="ninja">
+          🥷
+          <div class="sword" id="sword">🗡️</div>
+        </div>
+        <div class="fruit" id="fruit">🍉</div>
+        <div class="slash" id="slash">💥</div>
+      </div>
+    </section>
+
+    <!-- Saved Palettes -->
+    <section class="saved-section">
+      <h2>Saved Palettes</h2>
+      <div id="savedPalettes" class="saved-palettes">
+        <p class="empty-message">No saved palettes yet. Click "Save Palette" to save your current palette.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Export Modal for Palette -->
+  <div id="exportModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Export Palette</h3>
+        <button class="modal-close" onclick="closeModal('exportModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="export-format">
+          <label class="form-label">Format:</label>
+          <select id="exportFormat" class="form-control">
+            <option value="hex">Hex (#RRGGBB)</option>
+            <option value="rgb">RGB (r, g, b)</option>
+            <option value="hsl">HSL (h, s%, l%)</option>
+            <option value="json">JSON</option>
+            <option value="css">CSS Variables</option>
+            <option value="python">Python List</option>
+            <option value="r">R Vector</option>
+          </select>
+        </div>
+        <textarea id="exportOutput" class="export-textarea" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--secondary" onclick="closeModal('exportModal')">Close</button>
+        <button class="btn btn--primary" onclick="copyExport()">Copy to Clipboard</button>
+      </div>
     </div>
+  </div>
 
-    <script src="app.js"></script>
+  <!-- Export Modal for Collection -->
+  <div id="exportCollectionModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Export Collection</h3>
+        <button class="modal-close" onclick="closeModal('exportCollectionModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="export-format">
+          <label class="form-label">Format:</label>
+          <select id="exportCollectionFormat" class="form-control">
+            <option value="hex">Hex (#RRGGBB)</option>
+            <option value="rgb">RGB (r, g, b)</option>
+            <option value="hsl">HSL (h, s%, l%)</option>
+            <option value="json">JSON</option>
+            <option value="css">CSS Variables</option>
+          </select>
+        </div>
+        <textarea id="exportCollectionOutput" class="export-textarea" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn--secondary" onclick="closeModal('exportCollectionModal')">Close</button>
+        <button class="btn btn--primary" onclick="copyCollectionExport()">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
